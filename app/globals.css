@@ -3,3 +3,4 @@
 .projectSelect{max-width:210px;min-width:120px;padding:8px 28px 8px 8px;border:1px solid var(--line);border-radius:7px;background:#fff}
 @media(max-width:680px){.projectSelect{display:block;min-width:75px;max-width:120px;padding:6px 18px 6px 5px;font-size:10px}.projectSelect+.iconButton{padding:0}.authCard{max-height:calc(100vh - 24px);overflow:auto}}
 @media(max-width:680px){.sidebar nav{grid-template-columns:repeat(4,1fr)}}
+.syncStatus{display:inline-flex;align-items:center;gap:6px;color:#7b8792;font-size:10px;white-space:nowrap}.syncStatus i{width:7px;height:7px;border-radius:50%;background:#78a991}.syncStatus.syncError i{background:#d27b74}.syncError{color:#a14f4b}@media(max-width:680px){.syncStatus{display:none}}

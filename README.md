@@ -58,6 +58,7 @@ Ouvrez `http://127.0.0.1:3000`. En développement, des données d’exemple sont
 
 - Inscription publique avec création du premier projet, connexion, déconnexion et changement de mot de passe.
 - Messages avec pièces jointes privées téléversées et téléchargeables (4 Mo maximum dans l’interface).
+- Synchronisation des messages, rendus, tâches, événements et membres toutes les 4 secondes lorsque l’espace est ouvert.
 - Rendus, changement de statut, tâches, événements, calendrier, recherche locale et synthèse des messages/tâches.
 - Recherche locale par mots-clés dans les contenus du projet.
 

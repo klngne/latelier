@@ -7,7 +7,7 @@ Application Next.js (App Router) avec API Node.js, comptes membres, projets isol
 Vercel ne peut pas conserver la base SQLite ni les pièces jointes sur le disque d’une fonction serverless. Pour ce déploiement, l’application utilise automatiquement PostgreSQL et Vercel Blob à la place.
 
 1. Dans le projet Vercel, installez une intégration **Neon Postgres** et une intégration **Vercel Blob** depuis le Marketplace.
-2. Vérifiez que Vercel a ajouté `DATABASE_URL` et `BLOB_READ_WRITE_TOKEN` aux environnements Production, Preview et Development souhaités. Neon documente l’ajout de `DATABASE_URL` à l’intégration Vercel ; Blob garde les pièces jointes privées [Neon sur Vercel](https://vercel.com/marketplace/neon/neon), [stockage Vercel](https://vercel.com/docs/storage).
+2. Vérifiez que Vercel a ajouté `DATABASE_URL` et `BLOB_READ_WRITE_TOKEN` aux environnements Production, Preview et Development souhaités. Pour le temps réel, créez une application Ably et ajoutez `ABLY_API_KEY` aux variables Vercel. La clé reste côté serveur ; le navigateur reçoit un jeton limité à l’abonnement au projet actif. Neon documente l’ajout de `DATABASE_URL` à l’intégration Vercel ; Blob garde les pièces jointes privées [Neon sur Vercel](https://vercel.com/marketplace/neon/neon), [stockage Vercel](https://vercel.com/docs/storage).
 3. Déployez à nouveau. Le schéma PostgreSQL est initialisé au premier accès API. Les nouvelles inscriptions créent un compte et un projet privé ; aucun `ADMIN_EMAIL` ni `ADMIN_PASSWORD` n’est requis. Ces variables sont optionnelles et créent un compte administrateur de démarrage si elles sont définies.
 4. Ouvrez `/register` pour créer le premier espace, puis connectez-vous normalement.
 
@@ -18,7 +18,7 @@ Les pièces jointes Vercel sont privées et limitées à 4 Mo par fichier. Les d
 Le déploiement prévu est une instance applicative unique, derrière Caddy pour le HTTPS automatique. SQLite est adapté à ce mode de déploiement ; ne lancez pas plusieurs réplicas de l’application sur ce même fichier de base.
 
 1. Faites pointer le DNS `A`/`AAAA` de votre domaine vers le serveur. Ouvrez les ports 80 et 443.
-2. Copiez `.env.example` en `.env`, puis définissez `SITE_ADDRESS`, `ADMIN_EMAIL`, `ADMIN_NAME` et un mot de passe unique de 16 caractères minimum pour `ADMIN_PASSWORD`.
+2. Copiez `.env.example` en `.env`, puis définissez `SITE_ADDRESS`, `ADMIN_EMAIL`, `ADMIN_NAME` et un mot de passe unique de 16 caractères minimum pour `ADMIN_PASSWORD`. Ajoutez `ABLY_API_KEY` pour activer les mises à jour WebSocket ; sans cette clé, l’interface utilise le rafraîchissement périodique.
 3. Lancez :
 
    ```sh
@@ -58,7 +58,7 @@ Ouvrez `http://127.0.0.1:3000`. En développement, des données d’exemple sont
 
 - Inscription publique avec création du premier projet, connexion, déconnexion et changement de mot de passe.
 - Messages avec pièces jointes privées téléversées et téléchargeables (4 Mo maximum dans l’interface).
-- Synchronisation des messages, rendus, tâches, événements et membres toutes les 4 secondes lorsque l’espace est ouvert.
+- Mises à jour en temps réel des messages, rendus, tâches, événements et membres par projet via Ably ; rafraîchissement périodique de secours si le socket est indisponible.
 - Rendus, changement de statut, tâches, événements, calendrier, recherche locale et synthèse des messages/tâches.
 - Recherche locale par mots-clés dans les contenus du projet.
 

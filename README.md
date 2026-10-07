@@ -1,6 +1,6 @@
 # L’atelier
 
-Application Next.js (App Router) avec API Node.js, comptes membres, projets isolés et interface responsive. Vercel utilise Neon/Postgres et Blob ; le déploiement Docker autonome utilise SQLite et un volume persistant.
+Application Next.js (App Router) avec comptes membres, projets isolés et interface responsive. Les écrans de l’espace sont séparés du shell dans `app/workspace-content.jsx`. L’API expose des routes App Router par ressource sous `app/api/` ; elles partagent les adaptateurs de stockage SQLite local et Neon/Postgres sur Vercel pour garder les mêmes règles métier sur les deux plateformes.
 
 ## Déploiement Vercel
 

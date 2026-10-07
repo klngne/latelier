@@ -1,6 +1,6 @@
  'use client';
 import React, {useEffect,useState} from 'react';
-import { PanelsTopLeft, MessageSquare, Files, ListTodo, Search, Plus, Bell, ClipboardList, Settings2, CircleHelp, ChevronLeft, ChevronRight, CalendarDays, X } from 'lucide-react';
+import { PanelsTopLeft, MessageSquare, Files, ListTodo, Search, Plus, Bell, ClipboardList, UserRoundPlus, Settings2, CircleHelp, ChevronLeft, ChevronRight, CalendarDays, X } from 'lucide-react';
 import WorkspaceContent from './workspace-content.jsx';
 
 const API='/api';

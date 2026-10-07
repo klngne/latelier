@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
-  serverExternalPackages: ['better-sqlite3'],
+  ...(process.env.VERCEL ? {} : { output: 'standalone' }),
+  ...(process.env.VERCEL ? {} : { serverExternalPackages: ['better-sqlite3'] }),
   async headers() {
     const headers = [
       { key: 'X-Content-Type-Options', value: 'nosniff' },

@@ -1,6 +1,17 @@
 # L’atelier
 
-Application Next.js (App Router) avec API Node.js, SQLite sur volume persistant, comptes membres et interface responsive.
+Application Next.js (App Router) avec API Node.js, comptes membres, projets isolés et interface responsive. Vercel utilise Neon/Postgres et Blob ; le déploiement Docker autonome utilise SQLite et un volume persistant.
+
+## Déploiement Vercel
+
+Vercel ne peut pas conserver la base SQLite ni les pièces jointes sur le disque d’une fonction serverless. Pour ce déploiement, l’application utilise automatiquement PostgreSQL et Vercel Blob à la place.
+
+1. Dans le projet Vercel, installez une intégration **Neon Postgres** et une intégration **Vercel Blob** depuis le Marketplace.
+2. Vérifiez que Vercel a ajouté `DATABASE_URL` et `BLOB_READ_WRITE_TOKEN` aux environnements Production, Preview et Development souhaités. Neon documente l’ajout de `DATABASE_URL` à l’intégration Vercel ; Blob garde les pièces jointes privées [Neon sur Vercel](https://vercel.com/marketplace/neon/neon), [stockage Vercel](https://vercel.com/docs/storage).
+3. Déployez à nouveau. Le schéma PostgreSQL est initialisé au premier accès API. Les nouvelles inscriptions créent un compte et un projet privé ; aucun `ADMIN_EMAIL` ni `ADMIN_PASSWORD` n’est requis. Ces variables sont optionnelles et créent un compte administrateur de démarrage si elles sont définies.
+4. Ouvrez `/register` pour créer le premier espace, puis connectez-vous normalement.
+
+Les pièces jointes Vercel sont privées et limitées à 4 Mo par fichier. Les données du précédent déploiement SQLite sur Vercel ne sont pas récupérables depuis le disque éphémère ; les comptes devront être recréés si aucune sauvegarde externe n’existe. Ne copiez pas les valeurs secrètes dans le dépôt ou dans un message : configurez-les directement dans les paramètres Vercel.
 
 ## Déploiement production avec Docker
 
@@ -46,8 +57,8 @@ Ouvrez `http://127.0.0.1:3000`. En développement, des données d’exemple sont
 ## Fonctions
 
 - Inscription publique avec création du premier projet, connexion, déconnexion et changement de mot de passe.
-- Messages avec pièces jointes téléversées et téléchargeables (20 Mo maximum).
+- Messages avec pièces jointes privées téléversées et téléchargeables (4 Mo maximum dans l’interface).
 - Rendus, changement de statut, tâches, événements, calendrier, recherche locale et synthèse des messages/tâches.
-- Assistant de recherche dans les contenus de l’espace.
+- Recherche locale par mots-clés dans les contenus du projet.
 
-Les invitations sont distribuées par lien copié dans le presse-papiers. Aucun service d’envoi d’e-mail ni fournisseur audio n’est configuré ; le salon vocal est donc un point d’extension d’interface. Le premier démarrage migre les données existantes vers le projet « Collectif design » sans supprimer les contenus déjà enregistrés.
+Les invitations sont distribuées par lien copié dans le presse-papiers ; aucun service d’envoi d’e-mail n’est configuré. Le premier démarrage SQLite migre les données existantes vers le projet « Collectif design » sans supprimer les contenus déjà enregistrés.
